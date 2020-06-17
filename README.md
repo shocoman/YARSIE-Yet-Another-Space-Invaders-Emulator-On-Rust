@@ -7,7 +7,7 @@ Space invaders arcade machine emulator on rust. SDL2-Rust was used for displayin
     Shoot               - Space
     One player start    - Key 1
     Two players start   - Key 2
-    Toggle extra live at 1000 points (otherway on 1500p) - X
+    Toggle extra live at 1000 points (otherway on 1500p) - Key X
 
     Start lives         - Keys 3-6 (from 3 to 6 lives)
     Tilt                - Key T
