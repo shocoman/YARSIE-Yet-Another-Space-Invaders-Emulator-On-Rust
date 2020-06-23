@@ -1091,11 +1091,6 @@ impl I8080 {
             } // JNZ adr
             0xc3 => {
                 self.pc = Self::join_bytes(self.read_memory(self.pc + 2), self.read_memory(self.pc + 1));
-                if self.pc == 0x0 // stop the program (call to CP/M)
-                {
-                    println!("\nPROGRAM HAS FINISHED");
-                    std::process::exit(0);
-                }
             }, // JMP adr
             0xc4 => {
                 if !self.get_flag_bit(FlagBit::Zero) {
@@ -1143,36 +1138,8 @@ impl I8080 {
                 }
             } // CZ adr
             0xcd => {
-                let call_addr = Self::join_bytes(self.read_memory(self.pc+2), self.read_memory(self.pc+1));
-
-                // for cpudiag tests
-                if call_addr == 0x5 // special printing call
-                {
-                    if self.c == 0x9 // print message ('cpu is/not working')
-                    {
-                        let mut offset = Self::join_bytes(self.d, self.e) + 3;
-                        while self.read_memory(offset) as char != '$' {
-                            print!("{}", self.read_memory(offset) as char);
-                            offset += 1;
-                        }
-                        println!();
-                        // std::process::exit(0);
-                    } else if self.c == 0x02 { // print address of incorrect instruction
-                        print!("{}", self.e as char);
-                    }
-                    self.pc += 3; // skip
-                    // std::process::exit(0);
-                }
-                else if call_addr == 0x0 // stop the program (call to CP/M)
-                {
-                    println!("PROGRAM HAS FINISHED");
-                    std::process::exit(0);
-                } else { // normal call
-                    // save address of the next instruction to stack
-                    self.push(self.pc+3);
-                    self.pc = call_addr;
-                }
-
+                self.push(self.pc+3);
+                self.pc = Self::join_bytes(self.read_memory(self.pc+2), self.read_memory(self.pc+1));
             } // CALL adr
             0xce => {
                 self.add_with_carry(self.read_memory(self.pc+1));

@@ -96,7 +96,7 @@ impl MainBus {
 
             // display some info in windows title
             sdl_context.canvas.window_mut().set_title(
-                format!("Space Invaders Emulator. FPS: {:.2}; Clock rate: {} \
+                format!("Space Invaders Emulator. FPS: {:.2}; Clock rate: {}; \
                         Start lives: {}; Extra ship: {}; Muted: {}", 1000.0 / start.elapsed().as_millis() as f64,
                         clock_rate, self.controls.lives, self.controls.extra_ship, self.audio.muted).as_ref()).unwrap();
         }
